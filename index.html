@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DevLab — Escola virtual de programação</title>
+  <meta name="description" content="Aprenda programação de forma prática, com projetos reais e no seu ritmo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+/* ==========================================================
+   DevLab — style.css
+   1. Variáveis  2. Base  3. Header  4. Botões  5. Labels/Badges
+   6. Seções  7. Hero  8. Cards  9. Metodologia  10. CTA
+   11. Cursos  12. Footer  13. Responsivo
+   ========================================================== */
+
+/* 1. Variáveis */
+:root {
+  --bg: #09090B;
+  --surface: #111113;
+  --card: #18181B;
+  --border: #27272A;
+  --text: #F4F4F5;
+  --muted: #A1A1AA;
+  --blue: #2563EB;
+  --blue-light: #3B82F6;
+  --radius: 10px;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Fira Code", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --container: 1120px;
+}
+
+/* 2. Base */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
+:focus-visible { outline: 2px solid var(--blue-light); outline-offset: 3px; border-radius: 4px; }
+.container { width: min(100% - 2.5rem, var(--container)); margin-inline: auto; }
+.skip-link {
+  position: absolute; left: 1rem; top: -4rem; z-index: 100;
+  background: var(--blue); color: #fff; padding: .6rem 1rem; border-radius: 6px;
+}
+.skip-link:focus { top: 1rem; }
+
+/* 3. Header */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(9, 9, 11, .88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; height: 68px; }
+.logo { font-family: var(--font-mono); font-weight: 600; font-size: 1.1rem; letter-spacing: -.02em; }
+.logo span { color: var(--blue-light); }
+.nav-links { display: flex; gap: .25rem; }
+.nav-links a {
+  display: block; padding: .5rem .9rem; border-radius: 6px;
+  color: var(--muted); font-size: .95rem; font-weight: 500;
+  transition: color .15s, background .15s;
+}
+.nav-links a:hover { color: var(--text); background: var(--card); }
+.nav-links a[aria-current="page"] { color: var(--text); box-shadow: inset 0 -2px 0 var(--blue-light); border-radius: 6px 6px 0 0; }
+.header-actions { display: flex; align-items: center; gap: .75rem; }
+.menu-toggle {
+  display: none; width: 42px; height: 42px; padding: 0;
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.menu-toggle:hover { background: var(--card); }
+.menu-toggle[aria-expanded="true"] { border-color: var(--blue-light); background: var(--card); }
+.menu-toggle .bars, .menu-toggle .bars::before, .menu-toggle .bars::after {
+  display: block; width: 18px; height: 2px; background: currentColor; border-radius: 2px;
+  transition: transform .2s, background .2s;
+}
+.menu-toggle .bars { position: relative; margin: auto; }
+.menu-toggle .bars::before, .menu-toggle .bars::after { content: ""; position: absolute; left: 0; }
+.menu-toggle .bars::before { top: -6px; }
+.menu-toggle .bars::after { top: 6px; }
+.menu-toggle[aria-expanded="true"] .bars { background: transparent; }
+.menu-toggle[aria-expanded="true"] .bars::before { transform: translateY(6px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] .bars::after { transform: translateY(-6px) rotate(-45deg); }
+
+/* 4. Botões */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .75rem 1.25rem; border-radius: 8px; border: 1px solid transparent;
+  font: 600 .95rem/1 var(--font-sans); cursor: pointer;
+  transition: background .15s, border-color .15s, transform .1s;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-primary:hover { background: var(--blue-light); }
+.btn-primary:active { background: #1D4ED8; }
+.btn-secondary { background: transparent; color: var(--text); border-color: var(--border); }
+.btn-secondary:hover { background: var(--card); border-color: #3F3F46; }
+.btn-sm { padding: .6rem 1rem; font-size: .9rem; }
+.link-arrow { color: var(--blue-light); font-weight: 600; font-size: .95rem; }
+.link-arrow:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* 5. Labels e badges */
+.label {
+  display: inline-block; margin-bottom: 1rem;
+  font-family: var(--font-mono); font-size: .8rem; letter-spacing: .06em; color: var(--blue-light);
+}
+.label-live { display: inline-flex; align-items: center; gap: .5rem; color: var(--muted); }
+.label-live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--blue-light); }
+.badge {
+  display: inline-block; padding: .2rem .55rem; border-radius: 5px;
+  border: 1px solid var(--border); background: var(--surface);
+  font-family: var(--font-mono); font-size: .72rem; letter-spacing: .04em; color: var(--muted);
+}
+.badge-tech { color: var(--text); }
+.badge-blue { background: rgba(37, 99, 235, .15); border-color: rgba(59, 130, 246, .5); color: var(--blue-light); }
+
+/* 6. Seções */
+.section { padding: 6rem 0; }
+.section-alt { background: var(--surface); border-block: 1px solid var(--border); }
+.section-head { max-width: 640px; margin-bottom: 3rem; }
+.section-head h2, .page-hero h1, .cta-box h2 { letter-spacing: -.03em; line-height: 1.1; }
+.section-head h2 { font-size: clamp(1.9rem, 4vw, 2.75rem); font-weight: 700; }
+.lead { color: var(--muted); font-size: 1.1rem; max-width: 56ch; margin-top: 1rem; }
+
+/* 7. Hero */
+.hero { padding: 5.5rem 0 6rem; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 4rem; align-items: center; }
+.hero h1 { font-size: clamp(2.5rem, 6vw, 4.25rem); font-weight: 800; letter-spacing: -.04em; line-height: 1.04; margin-bottom: 1.5rem; }
+.hl { color: var(--blue-light); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin: 2rem 0 1.75rem; }
+.checks { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; color: var(--muted); font-size: .9rem; }
+.checks li::before { content: "✓"; color: var(--blue-light); margin-right: .5rem; font-weight: 700; }
+
+.editor { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 0 0 6px rgba(37, 99, 235, .05); }
+.editor-bar { display: flex; align-items: center; gap: .5rem; padding: .75rem 1rem; border-bottom: 1px solid var(--border); background: var(--card); }
+.dot { width: 11px; height: 11px; border-radius: 50%; background: #3F3F46; }
+.editor-file { margin-left: .75rem; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); }
+.editor pre { margin: 0; padding: 1.5rem; overflow-x: auto; font-family: var(--font-mono); font-size: .9rem; line-height: 1.8; }
+.ln { display: inline-block; width: 1.75rem; color: #52525B; user-select: none; }
+.tk-k { color: #60A5FA; } .tk-s { color: #86EFAC; } .tk-p { color: #E4E4E7; } .tk-f { color: #C4B5FD; } .tk-c { color: #71717A; }
+.editor-status { display: flex; justify-content: space-between; padding: .6rem 1rem; border-top: 1px solid var(--border); background: var(--card); font-family: var(--font-mono); font-size: .75rem; color: var(--muted); }
+.editor-status .on { color: var(--blue-light); }
+
+/* 8. Cards */
+.grid { display: grid; gap: 1.25rem; }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; display: flex; flex-direction: column; gap: .75rem; }
+.card h3 { font-size: 1.15rem; font-weight: 600; letter-spacing: -.01em; }
+.card p { color: var(--muted); font-size: .95rem; }
+.card-num { font-family: var(--font-mono); font-size: .8rem; color: var(--blue-light); }
+
+/* 9. Metodologia */
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; counter-reset: step; }
+.step { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+.step:not(:last-child)::after {
+  content: "→"; position: absolute; right: -1.1rem; top: 1.5rem; z-index: 1;
+  width: 1rem; text-align: center; color: var(--blue-light); font-family: var(--font-mono);
+}
+.step .card-num { display: block; margin-bottom: .75rem; }
+.step h3 { font-size: 1.15rem; margin-bottom: .5rem; }
+.step p { color: var(--muted); font-size: .95rem; }
+.mission { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: start; }
+.mission p + p { margin-top: 1rem; }
+.mission .body { color: var(--muted); font-size: 1.05rem; }
+
+/* 10. CTA */
+.cta-box {
+  background: linear-gradient(180deg, rgba(37, 99, 235, .1), rgba(37, 99, 235, 0) 70%), var(--card);
+  border: 1px solid var(--border); border-top-color: rgba(59, 130, 246, .5);
+  border-radius: 14px; padding: 4rem 2rem; text-align: center;
+}
+.cta-box h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; margin-bottom: .75rem; }
+.cta-box p { color: var(--muted); margin-bottom: 2rem; }
+.cta-box .label { margin-bottom: 1rem; }
+
+/* 11. Página interna / Cursos */
+.page-hero { padding: 5rem 0 3.5rem; border-bottom: 1px solid var(--border); }
+.page-hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.75rem); font-weight: 800; margin-bottom: 1.25rem; }
+.course { gap: 1rem; }
+.course-top { display: flex; flex-wrap: wrap; gap: .5rem; }
+.course-meta { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+.course-info { display: flex; gap: 1.25rem; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); }
+.course-featured { border-color: var(--blue-light); background: linear-gradient(180deg, rgba(37, 99, 235, .1), rgba(37, 99, 235, 0) 60%), var(--card); }
+
+/* 12. Footer */
+.site-footer { border-top: 1px solid var(--border); padding: 2.5rem 0; margin-top: 2rem; }
+.footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+.site-footer p { color: var(--muted); font-size: .9rem; }
+
+/* 13. Responsivo */
+@media (max-width: 960px) {
+  .hero-grid, .mission { grid-template-columns: 1fr; gap: 3rem; }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  .step:nth-child(2)::after { display: none; }
+}
+@media (max-width: 760px) {
+  .menu-toggle { display: inline-flex; }
+  .nav {
+    display: none; position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--surface); border-bottom: 1px solid var(--border); padding: .75rem 1.25rem 1rem;
+  }
+  .nav.is-open { display: block; }
+  .nav-links { flex-direction: column; }
+  .nav-links a { padding: .85rem .9rem; }
+  .nav-links a[aria-current="page"] { box-shadow: inset 3px 0 0 var(--blue-light); border-radius: 6px; background: var(--card); }
+  .section { padding: 4rem 0; }
+  .hero { padding: 3.5rem 0 4rem; }
+  .grid-3, .grid-2, .steps { grid-template-columns: 1fr; }
+  .step:not(:last-child)::after { content: "↓"; right: auto; left: 1.5rem; top: auto; bottom: -1.2rem; }
+  .cta-box { padding: 3rem 1.25rem; }
+}
+@media (max-width: 420px) {
+  .header-actions .btn-sm { padding: .55rem .75rem; font-size: .82rem; }
+  .hero-actions .btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}
+
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html" aria-label="DevLab — ir para o início"><span>&lt;</span>DevLab<span>/&gt;</span></a>
+      <nav class="nav" id="nav" aria-label="Navegação principal">
+        <ul class="nav-links">
+          <li><a href="index.html" aria-current="page">Início</a></li>
+          <li><a href="cursos.html">Cursos</a></li>
+          <li><a href="sobre.html">Sobre</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm" href="cursos.html">Começar agora</a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Abrir menu"><span class="bars"></span></button>
+      </div>
+    </div>
+  </header>
+  <main id="conteudo">
+    <section class="hero" aria-labelledby="hero-titulo">
+      <div class="container hero-grid">
+        <div>
+          <span class="label label-live">ESCOLA VIRTUAL DE PROGRAMAÇÃO</span>
+          <h1 id="hero-titulo">Transforme <span class="hl">código</span><br>em possibilidades.</h1>
+          <p class="lead">Aprenda programação de forma prática, direta e focada no que realmente importa: construir projetos e evoluir suas habilidades.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="cursos.html">Explorar cursos →</a>
+            <a class="btn btn-secondary" href="sobre.html">Conhecer a DevLab</a>
+          </div>
+          <ul class="checks" aria-label="Diferenciais">
+            <li>Conteúdo prático</li>
+            <li>Projetos reais</li>
+            <li>Aprenda no seu ritmo</li>
+          </ul>
+        </div>
+        <div class="editor" role="img" aria-label="Ilustração de um editor de código com o arquivo future.js">
+          <div class="editor-bar" aria-hidden="true">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="editor-file">future.js</span>
+          </div>
+          <pre aria-hidden="true"><code><span class="ln">1</span><span class="tk-k">const</span> <span class="tk-p">future</span> = {
+<span class="ln">2</span>  <span class="tk-p">skill</span>: <span class="tk-s">"programação"</span>,
+<span class="ln">3</span>  <span class="tk-p">mindset</span>: <span class="tk-s">"construir"</span>,
+<span class="ln">4</span>  <span class="tk-p">goal</span>: <span class="tk-s">"evoluir"</span>
+<span class="ln">5</span>};
+<span class="ln">6</span>
+<span class="ln">7</span><span class="tk-k">await</span> <span class="tk-f">learn</span>(<span class="tk-p">future</span>);</code></pre>
+          <div class="editor-status" aria-hidden="true"><span><span class="on">●</span> learning_mode: active</span><span>JavaScript</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="porque-titulo">
+      <div class="container">
+        <div class="section-head">
+          <span class="label">01 / POR QUE A DEVLAB?</span>
+          <h2 id="porque-titulo">Aprenda fazendo.</h2>
+          <p class="lead">Menos teoria isolada. Mais prática, projetos e evolução constante.</p>
+        </div>
+        <div class="grid grid-3">
+          <article class="card"><span class="card-num">01</span><h3>Prática desde o início</h3><p>Aprenda conceitos enquanto coloca a mão no código e constrói aplicações.</p></article>
+          <article class="card"><span class="card-num">02</span><h3>Projetos para seu portfólio</h3><p>Transforme cada etapa de aprendizado em algo concreto para apresentar.</p></article>
+          <article class="card"><span class="card-num">03</span><h3>Evolução no seu ritmo</h3><p>Estude quando quiser, revise conteúdos e acompanhe sua própria jornada.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="cta-titulo">
+      <div class="container">
+        <div class="cta-box">
+          <span class="label">COMECE HOJE</span>
+          <h2 id="cta-titulo">Seu próximo projeto começa aqui.</h2>
+          <p>Escolha uma tecnologia e comece a construir.</p>
+          <a class="btn btn-primary" href="cursos.html">Ver cursos disponíveis →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="logo" href="index.html" aria-label="DevLab — ir para o início"><span>&lt;</span>DevLab<span>/&gt;</span></a>
+      <p>© 2026 DevLab. Aprenda. Construa. Evolua.</p>
+    </div>
+  </footer>
+  <script>
+// DevLab — menu mobile
+(function () {
+  var toggle = document.querySelector(".menu-toggle");
+  var nav = document.getElementById("nav");
+  if (!toggle || !nav) return;
+
+  function setMenu(open) {
+    nav.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+  }
+
+  toggle.addEventListener("click", function () {
+    setMenu(toggle.getAttribute("aria-expanded") !== "true");
+  });
+
+  nav.querySelectorAll("a").forEach(function (link) {
+    link.addEventListener("click", function () { setMenu(false); });
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+      setMenu(false);
+      toggle.focus();
+    }
+  });
+})();
+
+  </script>
+</body>
+</html>
